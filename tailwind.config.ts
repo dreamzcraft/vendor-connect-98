@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ['"Space Grotesk"', 'sans-serif'],
+        body: ['"Inter"', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -46,6 +50,18 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        whatsapp: {
+          DEFAULT: "hsl(var(--whatsapp))",
+          foreground: "hsl(var(--whatsapp-foreground))",
+        },
+        email: {
+          DEFAULT: "hsl(var(--email))",
+          foreground: "hsl(var(--email-foreground))",
+        },
+        "email-all": {
+          DEFAULT: "hsl(var(--email-all))",
+          foreground: "hsl(var(--email-all-foreground))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
