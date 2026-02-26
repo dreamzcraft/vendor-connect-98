@@ -33,7 +33,7 @@ const BrandSelect = () => {
             <span className="text-sm">All Categories</span>
           </button>
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{category.icon}</span>
+            <category.icon className="w-8 h-8 text-primary" />
             <div>
               <h1 className="font-display text-2xl font-bold text-foreground tracking-tight">
                 {category.name}

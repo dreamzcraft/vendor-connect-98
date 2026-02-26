@@ -1,3 +1,5 @@
+import { LucideIcon, Laptop, Monitor, Shield, Cog, Printer, ScanLine, Server, Network, Camera, Cable, Box, HardDrive, BatteryCharging, Projector, Tv, AppWindow, Video, LayoutGrid, Construction, Speaker, Wifi } from "lucide-react";
+
 export interface Vendor {
   name: string;
   email: string;
@@ -13,7 +15,7 @@ export interface Brand {
 export interface ProductCategory {
   id: string;
   name: string;
-  icon: string;
+  icon: LucideIcon;
   brands: Brand[];
 }
 
@@ -25,7 +27,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "laptop",
     name: "Laptop",
-    icon: "💻",
+    icon: Laptop,
     brands: [
       {
         name: "HP",
@@ -97,7 +99,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "desktop",
     name: "Desktop / AIO",
-    icon: "🖥️",
+    icon: Monitor,
     brands: [
       {
         name: "HP",
@@ -145,7 +147,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "firewall",
     name: "Firewall",
-    icon: "🛡️",
+    icon: Shield,
     brands: [
       {
         name: "Fortinet (FortiGate)",
@@ -226,7 +228,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "workstation",
     name: "Workstation",
-    icon: "⚙️",
+    icon: Cog,
     brands: [
       {
         name: "HP",
@@ -275,7 +277,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "printer",
     name: "Printer",
-    icon: "🖨️",
+    icon: Printer,
     brands: [
       {
         name: "HP",
@@ -325,7 +327,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "scanner",
     name: "Scanner",
-    icon: "📠",
+    icon: ScanLine,
     brands: [
       {
         name: "Canon",
@@ -371,7 +373,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "server",
     name: "Server & Storage",
-    icon: "🗄️",
+    icon: Server,
     brands: [
       {
         name: "Dell",
@@ -439,7 +441,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "switches",
     name: "Switches",
-    icon: "🔌",
+    icon: Network,
     brands: [
       {
         name: "Cisco",
@@ -501,7 +503,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "cctv",
     name: "CCTV / Camera",
-    icon: "📹",
+    icon: Camera,
     brands: [
       {
         name: "Hikvision",
@@ -570,7 +572,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "cable",
     name: "Cable",
-    icon: "🔗",
+    icon: Cable,
     brands: [
       {
         name: "D-Link",
@@ -617,7 +619,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "rack",
     name: "Rack",
-    icon: "🏗️",
+    icon: Box,
     brands: [
       {
         name: "D-Link",
@@ -653,7 +655,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "storage",
     name: "Storage",
-    icon: "💾",
+    icon: HardDrive,
     brands: [
       {
         name: "Seagate",
@@ -692,7 +694,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "ups",
     name: "UPS",
-    icon: "🔋",
+    icon: BatteryCharging,
     brands: [
       {
         name: "APC",
@@ -719,7 +721,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "projectors",
     name: "Projectors",
-    icon: "📽️",
+    icon: Projector,
     brands: [
       {
         name: "Epson",
@@ -751,7 +753,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "flat-panel",
     name: "Flat Panel",
-    icon: "📺",
+    icon: Tv,
     brands: [
       {
         name: "Hikvision",
@@ -784,7 +786,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "software",
     name: "Software",
-    icon: "💿",
+    icon: AppWindow,
     brands: [
       {
         name: "Microsoft",
@@ -831,7 +833,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "vc-setup",
     name: "VC Setup",
-    icon: "🎥",
+    icon: Video,
     brands: [
       {
         name: "Logitech",
@@ -851,7 +853,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "led-video-wall",
     name: "LED Video Wall",
-    icon: "🖼️",
+    icon: LayoutGrid,
     brands: [
       {
         name: "Hikvision",
@@ -878,7 +880,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "boom-barrier",
     name: "Boom Barrier",
-    icon: "🚧",
+    icon: Construction,
     brands: [
       {
         name: "eSSL",
@@ -897,7 +899,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "pa-system",
     name: "PA System",
-    icon: "🔊",
+    icon: Speaker,
     brands: [
       {
         name: "Hikvision",
@@ -917,7 +919,7 @@ export const productCategories: ProductCategory[] = [
   {
     id: "wifi",
     name: "WiFi / Access Point",
-    icon: "📶",
+    icon: Wifi,
     brands: [
       {
         name: "Cisco",
