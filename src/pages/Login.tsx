@@ -5,17 +5,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Lock, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === "dreamz" && password === "Dreamz@1") {
-      sessionStorage.setItem("dc_authenticated", "true");
+    if (login(username, password)) {
       navigate("/");
     } else {
       setError("Invalid username or password");
