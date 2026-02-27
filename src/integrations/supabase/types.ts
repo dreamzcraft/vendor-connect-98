@@ -14,7 +14,106 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      brands: {
+        Row: {
+          category_id: string
+          created_at: string
+          id: string
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          id?: string
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          id?: string
+          name?: string
+          sort_order?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "brands_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          created_at: string
+          icon_name: string
+          id: string
+          name: string
+          sort_order: number
+        }
+        Insert: {
+          created_at?: string
+          icon_name?: string
+          id: string
+          name: string
+          sort_order?: number
+        }
+        Update: {
+          created_at?: string
+          icon_name?: string
+          id?: string
+          name?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      vendors: {
+        Row: {
+          brand_id: string
+          created_at: string
+          email: string
+          id: string
+          name: string
+          phone: string
+          position: string
+          sort_order: number
+          type: string
+        }
+        Insert: {
+          brand_id: string
+          created_at?: string
+          email?: string
+          id?: string
+          name: string
+          phone?: string
+          position?: string
+          sort_order?: number
+          type?: string
+        }
+        Update: {
+          brand_id?: string
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          phone?: string
+          position?: string
+          sort_order?: number
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendors_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
