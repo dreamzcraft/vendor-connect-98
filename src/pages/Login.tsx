@@ -95,7 +95,6 @@ const Login = () => {
             transition={{ delay: 0.35, duration: 0.5 }}
           >
             <div className="space-y-2">
-              <Label htmlFor="username" className="text-sm font-medium">Username</Label>
               <div className="relative group">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors group-focus-within:text-primary" />
                 <Input
@@ -109,7 +108,6 @@ const Login = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium">Password</Label>
               <div className="relative group">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors group-focus-within:text-primary" />
                 <Input
