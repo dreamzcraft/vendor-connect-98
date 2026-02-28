@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import BrandSelect from "./pages/BrandSelect";
 import VendorList from "./pages/VendorList";
 import NotFound from "./pages/NotFound";
+import CatalogueView from "./pages/CatalogueView";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/" element={<AuthGuard><Index /></AuthGuard>} />
             <Route path="/category/:categoryId" element={<AuthGuard><BrandSelect /></AuthGuard>} />
             <Route path="/category/:categoryId/brand/:brandName" element={<AuthGuard><VendorList /></AuthGuard>} />
+            <Route path="/catalogue/:brandId" element={<AuthGuard><CatalogueView /></AuthGuard>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

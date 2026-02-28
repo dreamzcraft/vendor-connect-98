@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Pencil, Trash2, LogOut } from "lucide-react";
 import AdminCategoryDialog from "@/components/AdminCategoryDialog";
 import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
+import ThemeToggle from "@/components/ThemeToggle";
 import { toast } from "@/hooks/use-toast";
 
 interface Category {
@@ -73,6 +74,7 @@ const Index = () => {
                 <Plus className="w-4 h-4 mr-1" /> Add Category
               </Button>
             )}
+            <ThemeToggle />
             <Button variant="ghost" size="icon" onClick={() => { logout(); navigate("/login"); }} title="Sign out">
               <LogOut className="w-4 h-4" />
             </Button>

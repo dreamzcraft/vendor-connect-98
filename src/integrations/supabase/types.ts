@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       brands: {
         Row: {
+          catalogue_url: string
           category_id: string
           created_at: string
           id: string
@@ -23,6 +24,7 @@ export type Database = {
           sort_order: number
         }
         Insert: {
+          catalogue_url?: string
           category_id: string
           created_at?: string
           id?: string
@@ -30,6 +32,7 @@ export type Database = {
           sort_order?: number
         }
         Update: {
+          catalogue_url?: string
           category_id?: string
           created_at?: string
           id?: string
