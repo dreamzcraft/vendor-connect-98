@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Plus, Pencil, Trash2 } from "lucide-react";
 import AdminBrandDialog from "@/components/AdminBrandDialog";
 import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
+import ThemeToggle from "@/components/ThemeToggle";
 import { toast } from "@/hooks/use-toast";
 
 interface Brand {
@@ -80,11 +81,14 @@ const BrandSelect = () => {
                 <p className="text-sm text-muted-foreground">Select a brand to view vendors</p>
               </div>
             </div>
-            {isAdmin && (
-              <Button size="sm" onClick={() => { setEditBrand(null); setDialogOpen(true); }}>
-                <Plus className="w-4 h-4 mr-1" /> Add Brand
-              </Button>
-            )}
+            <div className="flex items-center gap-2">
+              {isAdmin && (
+                <Button size="sm" onClick={() => { setEditBrand(null); setDialogOpen(true); }}>
+                  <Plus className="w-4 h-4 mr-1" /> Add Brand
+                </Button>
+              )}
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>

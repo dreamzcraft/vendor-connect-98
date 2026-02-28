@@ -4,9 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { getIcon } from "@/lib/icons";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MessageCircle, Mail, Send, Plus, Pencil, Trash2 } from "lucide-react";
+import { ArrowLeft, MessageCircle, Mail, Send, Plus, Pencil, Trash2, BookOpen } from "lucide-react";
 import AdminVendorDialog from "@/components/AdminVendorDialog";
 import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
+import ThemeToggle from "@/components/ThemeToggle";
 import { toast } from "@/hooks/use-toast";
 
 interface VendorRow {
@@ -35,7 +36,7 @@ const VendorList = () => {
   const navigate = useNavigate();
   const { isAdmin } = useAuth();
   const [category, setCategory] = useState<{ id: string; name: string; icon_name: string } | null>(null);
-  const [brand, setBrand] = useState<{ id: string; name: string } | null>(null);
+  const [brand, setBrand] = useState<{ id: string; name: string; catalogue_url?: string } | null>(null);
   const [vendors, setVendors] = useState<VendorRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -115,6 +116,17 @@ const VendorList = () => {
                   <Plus className="w-4 h-4 mr-1" /> Add Vendor
                 </Button>
               )}
+              {brand?.catalogue_url && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigate(`/catalogue/${brandId}`)}
+                  className="gap-1"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  Catalogue
+                </Button>
+              )}
               {vendorsWithEmail.length > 1 && (
                 <button
                   onClick={emailAll}
@@ -124,6 +136,7 @@ const VendorList = () => {
                   Email All ({vendorsWithEmail.length})
                 </button>
               )}
+              <ThemeToggle />
             </div>
           </div>
         </div>
