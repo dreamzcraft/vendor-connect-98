@@ -1,0 +1,1 @@
+ALTER TABLE public.vendors ADD COLUMN catalogue_url text NOT NULL DEFAULT ''::text;
