@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { Upload, X } from "lucide-react";
 
 interface VendorRow {
   id: string;
@@ -14,6 +15,7 @@ interface VendorRow {
   phone: string;
   type: string;
   position: string;
+  catalogue_url: string;
 }
 
 interface Props {
@@ -30,14 +32,37 @@ const AdminVendorDialog = ({ open, onOpenChange, brandId, vendor, onSaved }: Pro
   const [phone, setPhone] = useState(vendor?.phone || "");
   const [type, setType] = useState(vendor?.type || "distributor");
   const [position, setPosition] = useState(vendor?.position || "");
+  const [catalogueUrl, setCatalogueUrl] = useState(vendor?.catalogue_url || "");
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
   const isEdit = !!vendor;
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const ext = file.name.split(".").pop();
+      const filePath = `vendors/${vendor?.id || "new"}/${Date.now()}.${ext}`;
+      const { error: uploadError } = await supabase.storage.from("catalogues").upload(filePath, file, { upsert: true });
+      if (uploadError) throw uploadError;
+      const { data: urlData } = supabase.storage.from("catalogues").getPublicUrl(filePath);
+      setCatalogueUrl(urlData.publicUrl);
+      toast({ title: "Catalogue image uploaded" });
+    } catch (err: any) {
+      toast({ title: "Error", description: err.message, variant: "destructive" });
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
 
   const handleSave = async () => {
     if (!name.trim()) return;
     setSaving(true);
     try {
-      const data = { name, email, phone, type, position };
+      const data = { name, email, phone, type, position, catalogue_url: catalogueUrl };
       if (isEdit) {
         const { error } = await supabase.from("vendors").update(data).eq("id", vendor.id);
         if (error) throw error;
@@ -87,6 +112,24 @@ const AdminVendorDialog = ({ open, onOpenChange, brandId, vendor, onSaved }: Pro
                 <SelectItem value="distributor">Distributor</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>Catalogue Image</Label>
+            <input ref={fileRef} type="file" accept="image/*,.pdf" onChange={handleUpload} className="hidden" />
+            <div className="flex items-center gap-2">
+              <Button type="button" variant="outline" size="sm" onClick={() => fileRef.current?.click()} disabled={uploading} className="gap-1">
+                <Upload className="w-4 h-4" />
+                {uploading ? "Uploading…" : catalogueUrl ? "Replace" : "Upload"}
+              </Button>
+              {catalogueUrl && (
+                <Button type="button" variant="outline" size="sm" onClick={() => setCatalogueUrl("")} className="gap-1 text-destructive">
+                  <X className="w-4 h-4" /> Remove
+                </Button>
+              )}
+            </div>
+            {catalogueUrl && (
+              <p className="text-xs text-muted-foreground truncate">✓ Catalogue attached</p>
+            )}
           </div>
         </div>
         <DialogFooter>

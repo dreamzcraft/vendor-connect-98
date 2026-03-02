@@ -1,10 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { getIcon } from "@/lib/icons";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MessageCircle, Mail, Send, Plus, Pencil, Trash2, BookOpen, Upload, X } from "lucide-react";
+import { ArrowLeft, MessageCircle, Mail, Send, Plus, Pencil, Trash2, BookOpen } from "lucide-react";
 import AdminVendorDialog from "@/components/AdminVendorDialog";
 import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -17,6 +17,7 @@ interface VendorRow {
   phone: string;
   type: string;
   position: string;
+  catalogue_url: string;
 }
 
 const formatPhone = (phone: string) => phone.replace(/\s+/g, "");
@@ -31,55 +32,7 @@ const openEmail = (vendor: VendorRow) => {
   window.open(`mailto:${vendor.email}`, "_blank");
 };
 
-const CatalogueAdmin = ({ brand, onUpdated }: { brand: { id: string; name: string; catalogue_url?: string } | null; onUpdated: () => void }) => {
-  const fileRef = useRef<HTMLInputElement>(null);
-  const [uploading, setUploading] = useState(false);
-
-  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !brand) return;
-    setUploading(true);
-    try {
-      const ext = file.name.split(".").pop();
-      const filePath = `${brand.id}/${Date.now()}.${ext}`;
-      const { error: uploadError } = await supabase.storage.from("catalogues").upload(filePath, file, { upsert: true });
-      if (uploadError) throw uploadError;
-      const { data: urlData } = supabase.storage.from("catalogues").getPublicUrl(filePath);
-      const { error } = await supabase.from("brands").update({ catalogue_url: urlData.publicUrl }).eq("id", brand.id);
-      if (error) throw error;
-      toast({ title: "Catalogue uploaded" });
-      onUpdated();
-    } catch (err: any) {
-      toast({ title: "Error", description: err.message, variant: "destructive" });
-    } finally {
-      setUploading(false);
-      if (fileRef.current) fileRef.current.value = "";
-    }
-  };
-
-  const handleRemove = async () => {
-    if (!brand) return;
-    const { error } = await supabase.from("brands").update({ catalogue_url: "" }).eq("id", brand.id);
-    if (error) toast({ title: "Error", description: error.message, variant: "destructive" });
-    else { toast({ title: "Catalogue removed" }); onUpdated(); }
-  };
-
-  return (
-    <>
-      <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} className="hidden" />
-      <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()} disabled={uploading} className="gap-1">
-        <Upload className="w-4 h-4" />
-        {uploading ? "Uploading…" : brand?.catalogue_url ? "Replace Catalogue" : "Upload Catalogue"}
-      </Button>
-      {brand?.catalogue_url && (
-        <Button variant="outline" size="sm" onClick={handleRemove} className="gap-1 text-destructive">
-          <X className="w-4 h-4" />
-          Remove
-        </Button>
-      )}
-    </>
-  );
-};
+// Removed brand-level CatalogueAdmin - catalogues are now per-vendor
 
 const VendorList = () => {
   const { categoryId, brandName: brandId } = useParams<{ categoryId: string; brandName: string }>();
@@ -166,20 +119,6 @@ const VendorList = () => {
                   <Plus className="w-4 h-4 mr-1" /> Add Vendor
                 </Button>
               )}
-              {isAdmin && (
-                <CatalogueAdmin brand={brand} onUpdated={fetchData} />
-              )}
-              {brand?.catalogue_url && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => window.open(brand.catalogue_url, "_blank")}
-                  className="gap-1"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  Catalogue
-                </Button>
-              )}
               {vendorsWithEmail.length > 1 && (
                 <button
                   onClick={emailAll}
@@ -250,9 +189,9 @@ const VendorList = () => {
                       Email
                     </button>
                   )}
-                  {brand?.catalogue_url && (
+                  {vendor.catalogue_url && (
                     <button
-                      onClick={() => window.open(brand.catalogue_url, "_blank")}
+                      onClick={() => window.open(vendor.catalogue_url, "_blank")}
                       className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-secondary px-3 py-2.5 text-sm font-semibold text-secondary-foreground shadow-sm transition-all hover:opacity-90 active:scale-95"
                     >
                       <BookOpen className="w-4 h-4" />

@@ -76,6 +76,7 @@ export type Database = {
       vendors: {
         Row: {
           brand_id: string
+          catalogue_url: string
           created_at: string
           email: string
           id: string
@@ -87,6 +88,7 @@ export type Database = {
         }
         Insert: {
           brand_id: string
+          catalogue_url?: string
           created_at?: string
           email?: string
           id?: string
@@ -98,6 +100,7 @@ export type Database = {
         }
         Update: {
           brand_id?: string
+          catalogue_url?: string
           created_at?: string
           email?: string
           id?: string
