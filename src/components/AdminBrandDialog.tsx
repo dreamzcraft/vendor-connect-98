@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,13 +16,22 @@ interface Props {
 }
 
 const AdminBrandDialog = ({ open, onOpenChange, categoryId, brand, onSaved }: Props) => {
-  const [name, setName] = useState(brand?.name || "");
+  const [name, setName] = useState("");
   const [saving, setSaving] = useState(false);
   const [catalogueFile, setCatalogueFile] = useState<File | null>(null);
-  const [cataloguePreview, setCataloguePreview] = useState<string | null>(brand?.catalogue_url || null);
+  const [cataloguePreview, setCataloguePreview] = useState<string | null>(null);
   const [removeCatalogue, setRemoveCatalogue] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const isEdit = !!brand;
+
+  useEffect(() => {
+    if (open) {
+      setName(brand?.name || "");
+      setCatalogueFile(null);
+      setCataloguePreview(brand?.catalogue_url || null);
+      setRemoveCatalogue(false);
+    }
+  }, [open, brand]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
