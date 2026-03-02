@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,16 +27,27 @@ interface Props {
 }
 
 const AdminVendorDialog = ({ open, onOpenChange, brandId, vendor, onSaved }: Props) => {
-  const [name, setName] = useState(vendor?.name || "");
-  const [email, setEmail] = useState(vendor?.email || "");
-  const [phone, setPhone] = useState(vendor?.phone || "");
-  const [type, setType] = useState(vendor?.type || "distributor");
-  const [position, setPosition] = useState(vendor?.position || "");
-  const [catalogueUrl, setCatalogueUrl] = useState(vendor?.catalogue_url || "");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [type, setType] = useState("distributor");
+  const [position, setPosition] = useState("");
+  const [catalogueUrl, setCatalogueUrl] = useState("");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const isEdit = !!vendor;
+
+  useEffect(() => {
+    if (open) {
+      setName(vendor?.name || "");
+      setEmail(vendor?.email || "");
+      setPhone(vendor?.phone || "");
+      setType(vendor?.type || "distributor");
+      setPosition(vendor?.position || "");
+      setCatalogueUrl(vendor?.catalogue_url || "");
+    }
+  }, [open, vendor]);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

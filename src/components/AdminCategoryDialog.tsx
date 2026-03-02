@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,11 +16,19 @@ interface Props {
 }
 
 const AdminCategoryDialog = ({ open, onOpenChange, category, onSaved }: Props) => {
-  const [id, setId] = useState(category?.id || "");
-  const [name, setName] = useState(category?.name || "");
-  const [iconName, setIconName] = useState(category?.icon_name || "Box");
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [iconName, setIconName] = useState("Box");
   const [saving, setSaving] = useState(false);
   const isEdit = !!category;
+
+  useEffect(() => {
+    if (open) {
+      setId(category?.id || "");
+      setName(category?.name || "");
+      setIconName(category?.icon_name || "Box");
+    }
+  }, [open, category]);
 
   const handleSave = async () => {
     if (!id.trim() || !name.trim()) return;
